@@ -12,7 +12,7 @@
 
 Name: libyang
 Version: 2.1.148
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
@@ -112,6 +112,9 @@ cp -a doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_docdir}/libyang
 
 %changelog
+* Wed Nov 05 2025 Michal Ruprich <mruprich@redhat.com> - 2.1.148-3
+- Resolves: RHEL-119430 - Move libyang-devel to CRB
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 2.1.148-2
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
