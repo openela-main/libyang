@@ -7,8 +7,8 @@
 %endif
 
 Name: libyang
-Version: 2.0.7
-Release: 2%{?dist}
+Version: 2.1.148
+Release: 1%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
@@ -82,8 +82,13 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_bindir}/yanglint
 %{_bindir}/yangre
 %{_datadir}/man/man1/yanglint.1.gz
+%{_datadir}/man/man1/yangre.1.gz
 %{_libdir}/libyang.so.2
 %{_libdir}/libyang.so.2.*
+%{_datadir}/yang/modules/libyang/*.yang
+%dir %{_datadir}/yang/
+%dir %{_datadir}/yang/modules/
+%dir %{_datadir}/yang/modules/libyang/
 
 %files devel
 %{_libdir}/libyang.so
@@ -95,6 +100,12 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_docdir}/libyang
 
 %changelog
+* Fri Nov 07 2025 Michal Ruprich <mruprich@redhat.com> - 2.1.148-1
+- Resolves: RHEL-126845 - Rebase libyang to version 2.1.148
+
+* Fri Oct 03 2025 Michal Ruprich <mruprich@redhat.com> - 2.0.7-3
+- Resolves: RHEL-111202 - Move libyang-devel to CRB
+
 * Thu Jun 30 2022 Michal Ruprich <mruprich@redhat.com> - 2.0.7-2
 - Resolves: #2100938 - libyang FTBFS in rhel-9.1
 
