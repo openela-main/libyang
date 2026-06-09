@@ -12,7 +12,7 @@
 
 Name: libyang
 Version: 2.1.148
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
@@ -20,6 +20,9 @@ License: BSD-3-Clause
 
 # disable tests failing on s390x
 Patch1: disable-test_structure.patch
+# Original commit: https://github.com/CESNET/libyang/commit/48672b2
+# We have a different version, below is a minimal patch
+Patch2: libyang-fix-CVE-2026-44673.patch
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -112,6 +115,10 @@ cp -a doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_docdir}/libyang
 
 %changelog
+* Mon May 25 2026 Michal Ruprich <mruprich@redhat.com> - 2.1.148-4
+- DoS or arbitrary code execution via maliciously crafted LYB binary blob
+- Resolves: RHEL-177026 - CVE-2026-44673
+
 * Wed Nov 05 2025 Michal Ruprich <mruprich@redhat.com> - 2.1.148-3
 - Resolves: RHEL-119430 - Move libyang-devel to CRB
 
