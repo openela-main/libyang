@@ -8,7 +8,7 @@
 
 Name: libyang
 Version: 1.0.184
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/libyang-%{version}.tar.gz
@@ -27,6 +27,8 @@ BuildRequires:  python3-devel
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  graphviz
+
+Patch1: libyang-fix-CVE-2026-44673.patch
 
 %package devel
 Summary:    Development files for libyang
@@ -78,7 +80,6 @@ mkdir build
 %build
 cd build
 %cmake \
-   %{?_smp_mflags} \
    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
    -DCMAKE_BUILD_TYPE:String="Package" \
    -DENABLE_LYD_PRIV=ON \
@@ -133,6 +134,10 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{python3_sitearch}/__pycache__/yang*
 
 %changelog
+* Tue Jun 02 2026 Michal Ruprich <mruprich@redhat.com> - 1.0.184-2
+- DoS or arbitrary code execution via maliciously crafted LYB binary blob
+- Resolves: RHEL-177017 - CVE-2026-44673
+
 * Thu Jan 07 2021 Michal Ruprich <mruprich@redhat.com> - 1.0.184-1
 - Resolves: #1910046 - [RFE] Rebase libyang to 1.0.184
 
