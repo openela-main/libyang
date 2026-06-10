@@ -8,11 +8,14 @@
 
 Name: libyang
 Version: 2.1.148
-Release: 1%{?dist}
+Release: 1%{?dist}.1
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
 License: BSD
+
+# https://github.com/CESNET/libyang/pull/2513
+Patch0: RHEL-177019.patch
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -100,6 +103,10 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_docdir}/libyang
 
 %changelog
+* Tue May 26 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 2.1.148-1.1
+- Fix integer overflow and OOM in LYB parser string/value reading
+- Resolves: RHEL-177019
+
 * Fri Nov 07 2025 Michal Ruprich <mruprich@redhat.com> - 2.1.148-1
 - Resolves: RHEL-126845 - Rebase libyang to version 2.1.148
 
