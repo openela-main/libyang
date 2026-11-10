@@ -8,7 +8,7 @@
 
 Name: libyang
 Version: 2.1.148
-Release: 1%{?dist}.1
+Release: 3%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
@@ -80,6 +80,21 @@ popd
 mkdir -m0755 -p %{buildroot}/%{_docdir}/libyang
 cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 
+#downstream fix for multilib install of devel pkg
+mv %{buildroot}%{_includedir}/libyang/config.h \
+   %{buildroot}%{_includedir}/libyang/config-%{__isa_bits}.h
+cat > %{buildroot}%{_includedir}/libyang/config.h << EOF
+#include <bits/wordsize.h>
+
+#if __WORDSIZE == 32
+#include "config-32.h"
+#elif __WORDSIZE == 64
+#include "config-64.h"
+#else
+#error "Unknown word size"
+#endif
+EOF
+
 %files
 %license LICENSE
 %{_bindir}/yanglint
@@ -103,9 +118,13 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{_docdir}/libyang
 
 %changelog
-* Tue May 26 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 2.1.148-1.1
+* Tue Jun 16 2026 Michal Ruprich <mruprich@redhat.com> - 2.1.148-3
+- Fix multilib conflicts in libyang-devel headers
+- Resolves: RHEL-182750
+
+* Wed May 27 2026 Michal Ruprich <mruprich@redhat.com> - 2.1.148-2
 - Fix integer overflow and OOM in LYB parser string/value reading
-- Resolves: RHEL-177019
+- Resolves: RHEL-177018
 
 * Fri Nov 07 2025 Michal Ruprich <mruprich@redhat.com> - 2.1.148-1
 - Resolves: RHEL-126845 - Rebase libyang to version 2.1.148
